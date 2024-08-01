@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="validar.js"></script>
+</head>
+    
+<body align="center">
+    <h1>Validando Campos</h1>
+    <table border="1" align="center"><tr><td>
+    <form action="exemplo.php" method="post">
+        Taxa de juros: <input type="text" id="tax" name="tax">
+        <br>
+        Nome: <input type="text" id="nom" name="nom" placeholder="Digite seu nome">
+        <br>
+        Telefone: <input type="text" id="tel" placeholder="ddd + número com 9">
+        <br>
+        Data: <input type="date" name="data" id="data">
+        <input type="button" value="ENVIAR" onclick="return validar();">
+    </form>
+    </td></tr></table>
+</body>
+</html>
