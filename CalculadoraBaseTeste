@@ -1,0 +1,90 @@
+package aula;
+
+import java.util.List;
+import java.util.Objects;
+
+public class Calculadora {
+
+	public Double somar(Double valor1, Double valor2) {
+		return valor1 + valor2;
+	}
+	
+	public Double somar(Double[] valores) {
+		if(Objects.isNull(valores)) {
+			throw new IllegalArgumentException("Vetor null");// throw cria uma excessão no código, new 
+		}
+		var somador = 0d; // a variável deve começar com 0, por boa prática
+		for(Double valor : valores) {
+			somador = somador + valor;
+		}
+		
+		return somador;
+	}
+	
+	public ResultadoCalculoVO somar(List<Double> valores) {		
+		
+		if(Objects.isNull(valores)) {
+			return  new ResultadoCalculoVO(0d,true,"lista vazia");
+		}
+		var somador = 0d;
+		for(Double valor : valores) {
+			somador = somador + valor;
+		}
+		
+		return  new ResultadoCalculoVO(somador,false,"");
+		
+	}
+	
+	public Double subtrair(Double valor1, Double valor2) {
+		if(valor1 < 0 || valor2 > 1000) {
+			return null;
+		}
+		
+		return valor1- valor2;
+	}
+	
+	public Double subtrairComException(Double valor1, Double valor2) {
+		if(valor1 < 0 || valor2 > 1000) {
+			throw new IllegalArgumentException("Valores invalidos para a subtracao");
+		}
+		return valor1 - valor2;
+	}
+	
+	public ResultadoCalculoVO multiplicacao(List<Double> valores) {		
+		
+		if(Objects.isNull(valores)) {
+			return  new ResultadoCalculoVO(0d,true,"lista vazia");
+		}
+		
+		if(valores.size() > 5) {
+			return  new ResultadoCalculoVO(0d,true,"Tamanho maximo de elementos [5]");
+		}
+		
+		
+		var mult = 1d;
+		for(Double valor : valores) {
+			mult = mult * valor;
+		}
+		
+		return  new ResultadoCalculoVO(mult,false,"");
+		
+	}	
+	
+	public ResultadoCalculoVO Dividir(Double valor1, Double valor2) {
+		 String valor1Str = valor1.toString();//capta os valores por String, fiz para logo após limitar os caracteres
+	     String valor2Str = valor2.toString();
+
+		
+		if(valor1 == null || valor2 == null) {
+			throw new IllegalArgumentException("vetor null");
+				//length = pega os caracteres
+		}else if (valor1Str.length() > 5 || valor2Str.length() > 5) {
+			return new ResultadoCalculoVO(0d,true,"permitido até 5 elementos");
+		}
+		Double div = valor1 / valor2;
+		
+		return new ResultadoCalculoVO(div,false,"");
+	}
+	
+	
+}
