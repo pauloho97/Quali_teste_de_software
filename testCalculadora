@@ -1,0 +1,144 @@
+package aula;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import dev.failsafe.internal.util.Assert;
+
+public class CalculadoraTest {
+
+	
+
+	@Test
+	public void testSomar() {
+		// arrange
+		Double valor1 = 5d;
+		Double valor2= 7d;
+		Double resultadoEsperado = 12d;
+		Calculadora calculadora = new Calculadora();
+		
+		// ack
+		Double resultado = calculadora.somar(valor1, valor2);
+		
+		// assert
+		Assertions.assertNotNull(resultado);
+		Assertions.assertEquals(resultadoEsperado, resultado);
+	}
+	
+	@Test
+	public void testSomarList() {
+		// arrange
+		Double[] valores = {1d,2d};
+		Double valor = 2d;
+		Double somador = 1d;
+		Double resultadoEsperado = 3d;
+		Calculadora calc = new Calculadora(); 
+		
+		//ack
+		Double resultado = calc.somar(valores);
+		
+		// assert
+		Assertions.assertNotNull(resultado);
+		Assertions.assertEquals(resultadoEsperado, resultado);
+		
+	}
+	
+	@Test
+	public void testSomarList2() {
+		// arrange
+		List<Double> valores = new ArrayList<Double>();
+		valores.add(1d);
+		valores.add(2d);		
+		Double resultadoEsperado = 3d;
+		Calculadora calc = new Calculadora(); 
+				
+		//ack
+		ResultadoCalculoVO resultado = calc.somar(valores);
+				
+		// assert
+		Assertions.assertNotNull(resultado);
+		Assertions.assertEquals(resultadoEsperado, resultado.resultado());
+		Assertions.assertFalse(resultado.temError());
+		Assertions.assertEquals("",resultado.mensagemError());
+	}
+	
+	
+	@Test
+	public void testSubtrairLimite() {
+		// arrange
+		Double valor1 = -1d;
+		Double valor2 = 10d;
+		Double valorEsperado = null;
+		Calculadora calc = new Calculadora();
+		
+		//ack
+		Double resultado = calc.subtrair(valor1, valor2);
+		
+		//assert
+		Assertions.assertNull(resultado);
+		Assertions.assertEquals(valorEsperado, resultado);
+	}
+	
+	@Test
+	public void testsubtrairComException() {
+		// arrange
+		
+		Double valor1 = 1d;
+		Double valor2 = 10d;
+		Double valorEsperado = -9d;
+		Calculadora calc = new Calculadora();
+		// PERGUNTAR IllegalArgumentException("Valores invalidos para a subtracao");
+		//ack
+		Double resultado = calc.subtrairComException(valor1, valor2);
+		
+		//assert
+		//Assertions.assertNull(resultado);
+		Assertions.assertEquals(valorEsperado, resultado);
+	}
+	
+	@Test
+	public void testMultplicacao() {
+		
+		// arrange
+		List<Double> valores = new ArrayList<>();
+    	valores.add(5d);
+    	valores.add(5d);
+    	Double valorEsperado = 25d;
+    	Calculadora calc = new Calculadora();
+	        
+    	// act
+    	ResultadoCalculoVO resultado = calc.multiplicacao(valores);
+	        
+    	// assert
+    	Assertions.assertNotNull(resultado);
+    	Assertions.assertEquals(valorEsperado, resultado.resultado());
+    	Assertions.assertFalse(resultado.temError());
+    	Assertions.assertEquals("", resultado.mensagemError());
+		
+	}
+	
+	@Test
+	public void testDividir() {
+		// arrange
+		Double valor1Str = 100d;
+		Double valor2Str = 10d;
+		Double valorEsperado = 10d;
+		Calculadora calc = new Calculadora();
+		
+		// ack
+		ResultadoCalculoVO resultado = calc.Dividir(valor1Str, valor2Str);
+		
+		//assert
+		Assertions.assertNotNull(resultado);
+		Assertions.assertEquals(valorEsperado, resultado.resultado());
+		Assertions.assertFalse(resultado.temError());
+		Assertions.assertEquals("", resultado.mensagemError());
+		
+	
+	}
+}
