@@ -1,0 +1,51 @@
+package aula;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class AlunoMain {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scan = new Scanner(System.in);
+		ArrayList<Aluno> list = new ArrayList<Aluno>();
+		int opc;
+
+		System.out.println("\t\t\t\t\t\t\t\tPrograma Cadastro de aluno");
+		
+		do {
+		//Nome
+		System.out.println("Digite seu nome: ");
+		String nome = scan.nextLine();
+		
+		//Idade
+		System.out.println("Digite sua idade, sendo de 1 a 150 anos: ");
+		int idade = scan.nextInt();
+		
+		//Mes
+		System.out.println("Digite o mes do seu nascimento, sendo de 1 a 12: ");
+		int mes = scan.nextInt();
+		
+		//Ano
+		System.out.println("Digite o ano do seu nascimento, permitido 1900 até 2024: ");
+		int nasc = scan.nextInt();
+		
+		//Limpa o buffer de memória, evitando bug
+		scan.nextLine();
+		
+		Aluno alu = new Aluno(nome, idade, mes, nasc);
+
+		//System.out.println(alu);
+		list.add(alu);
+		
+		System.out.println(list);
+		
+		System.out.println("Caso deseja cadastrar mais um aluno digite 1");
+		opc = scan.nextInt();
+		
+		//Limpa o buffer de memória, evitando bug
+		 scan.nextLine();
+		} while(opc == 1);
+		
+	}
+}
