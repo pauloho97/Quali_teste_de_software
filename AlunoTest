@@ -1,0 +1,84 @@
+package aula;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class AlunoTest {
+
+	@Test
+	public void NomeCorreto() {
+		// Arrange
+		String nome = "Paulo Henrique";
+		int idade = 26;
+		int mes = 12;
+		int ano = 1997;
+
+		// ack
+		Aluno alu = new Aluno(nome, idade, mes, ano);
+
+		// Assert
+		Assertions.assertNotNull(alu);
+		Assertions.assertEquals(nome, alu.getNome());
+	}
+
+	@Test
+	public void NomeVazio() {
+
+		// Arrange
+		String nome = "";
+		int idade = 26;
+		int mes = 12;
+		int ano = 1997;
+		Aluno alu = null;
+
+		// Expressão Lambda, verifica dentro do valor de entrada a excessão com o código
+		// no bloco
+		assertThrows(IllegalArgumentException.class, () -> {
+			new Aluno(nome, idade, mes, ano);
+		});
+
+		// assert
+		Assertions.assertNull(alu);
+    //Erro no thrown
+		// assertEquals("nome null", thrown.getMessage());
+	}
+
+	@Test
+	public void NomeMenosde5caracteres() {
+		// Arrange
+		String nome = "pau";
+		int idade = 26;
+		int mes = 12;
+		int ano = 1997;
+
+		// ack, assert
+		try {
+			Aluno alu = new Aluno(nome, idade, mes, ano);
+			Assertions.fail();
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
+	}
+
+	@Test
+	public void NomeMaisde50caracteres() {
+		// Arrange
+		String nome = "batatinhaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+		int idade = 26;
+		int mes = 12;
+		int ano = 1997;
+
+		// ack, assert
+		try {
+			Aluno alu = new Aluno(nome, idade, mes, ano);
+			Assertions.fail();
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
+	}
+}
