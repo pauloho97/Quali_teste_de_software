@@ -1,0 +1,71 @@
+package aula;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ProdutoMain {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        List<Produto> list = new ArrayList<Produto>();
+        BancoDadosProduto banco = new BancoDadosProduto();
+        String opcao;
+
+        System.out.println("\t\t\t\t\t\tPrograma para cadastros dos produtos");
+        System.out.println("|--------------------------------------------------------------Regras----------------------------------------|");
+        System.out.println("| Todos os campos devem ser preenchidos                                                                      |");
+        System.out.println("| Não repita o mesmo valor do código                                                                         |");
+        System.out.println("| Preço deve ser positivo e maior que zero                                                                   |");
+        System.out.println("| Código deve ser NÚMEROS                                                                                    |");
+        System.out.println("| REGRA PRINCIPAL: formato deve ser separado por ';' ex: código;nome;preço                                   |");
+        System.out.println("|------------------------------------------------------------------------------------------------------------|");
+
+        do {
+            // Menu de opções
+            System.out.println("Escolha uma opção:");
+            System.out.println("1. Cadastrar produto");
+            System.out.println("2. Ver lista de produtos");
+            System.out.println("3. Sair");
+            opcao = scan.nextLine();
+
+            switch (opcao) {
+                case "1":
+                    // Cadastro de produto
+                    System.out.println("Cadastre seu produto (formato: código;nome;preço): ");
+                    String prod = scan.nextLine();
+                    if (Produto.processarCadastro(prod, list, banco)) {
+                        System.out.println("Produto cadastrado com sucesso");
+                    } else {
+                        System.out.println("Produto não cadastrado");
+                    }
+                    break;
+
+                case "2":
+                    // Ver lista de produtos
+                    if (list.isEmpty()) {
+                        System.out.println("Nenhum produto cadastrado.");
+                    } else {
+                        int contador = 1;
+                        for (Produto p : list) {
+                            System.out.println("Produto " + contador + "\n" + p);
+                            contador++;
+                        }
+                    }
+                    break;
+
+                case "3":
+                    // Sair
+                    System.out.println("Obrigado pela atenção, programa encerrado");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+                    break;
+            }
+
+        } while (!opcao.equals("3"));
+
+        scan.close(); // Fecha o scanner
+    }
+}
