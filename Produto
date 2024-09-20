@@ -1,45 +1,148 @@
 package aula;
 
+import java.util.List;
+
 public class Produto {
-	private int COD_PRODUTO; 
-	private String NOME_PRODUTO; 
+	private int COD_PRODUTO;
+	private String NOME_PRODUTO;
 	private float PRECO_PRODUTO;
+
+	public static boolean processarCadastro(String entrada, List<Produto> list, BancoDadosProduto banco) {
+
+		if (RegrasSplit(entrada) == false) {
+			return false;
+		}
+
+		if (conectarListaeBD(entrada, list, banco) == false) {
+			return false;
+		}
+
+		return true;
+	}
 	
+	//FORMATA O SPLIT E IMPOE REGRAS
+	public static boolean RegrasSplit(String entrada) {
+		// divide a String em 3 partes por ;
+		String[] dados = entrada.split(";");
+
+		// caso o usuário digite nulo,vazio, comece ou termine com espaços(por isso o
+		// uso do trim())
+		if (entrada == null || entrada.trim().isEmpty()) {
+			System.out.println("dados não podem ser nulos ou vazios");
+			return false;
+		}
+
+		if (dados.length != 3) {
+			System.out.println("Entrada inválida. Deve seguir o formato: código;nome;preço.");
+			return false;
+		}
+		try {
+			int cod = Integer.parseInt(dados[0].trim());
+			String nome = dados[1].trim();
+			float preco = Float.parseFloat(dados[2].trim());
+
+			// preco vazio
+			if (preco <= 0) {
+				System.out.println("preço deve ser maior que 0");
+				return false;
+			}
+
+			// nome vazio
+			if (nome.isEmpty()) {
+				System.out.println("nome não pode ser vazio");
+				return false;
+			}
+
+		} catch (NumberFormatException e) {
+			System.out.println(
+					"Erro de formato. Certifique-se de que o código é numérico e o preço é um número decimal.");
+			return false;
+		}
+		return true;
+
+	}
+	
+	//CONECTA O OBJETO A LISTA E O BANCO DE DADOS
+	public static boolean conectarListaeBD(String entrada, List<Produto> list, BancoDadosProduto banco) {
+		 
+		/*// Verifica se a lista está vazia
+        if (list.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+            return false;
+        }*/
+        
+		try {
+			String[] dados = entrada.split(";");
+			int cod = Integer.parseInt(dados[0].trim());
+			String nome = dados[1].trim();
+			float preco = Float.parseFloat(dados[2].trim());
+			
+
+	        // Verifica se já existe um produto com o mesmo código na lista
+	        for (Produto p : list) {
+	            if (p.getCOD_PRODUTO() == cod) {
+	                System.out.println("Erro: já existe um produto com o código " + cod);
+	                return false;
+	            }
+	        }
+			
+			Produto produto = new Produto(cod, nome, preco);
+			list.add(produto);
+			
+			
+			// Insere no banco de dados
+			if (banco.insertProduto(produto)) {
+				return true; // Retorna o produto se a inserção for bem-sucedida
+			} else {
+				System.out.println("Falha ao inserir produto no banco de dados.");
+				return false;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("erro na inserção do produto");
+			return false;
+		}
+
+	}
+
+	// CONSTRUTOR PADRÃO
+	public Produto(int cOD_PRODUTO, String nOME_PRODUTO, float pRECO_PRODUTO) {
+		super();
+		COD_PRODUTO = cOD_PRODUTO;
+		NOME_PRODUTO = nOME_PRODUTO;
+		PRECO_PRODUTO = pRECO_PRODUTO;
+	}
+
 	public int getCOD_PRODUTO() {
 		return COD_PRODUTO;
 	}
+
 	public void setCOD_PRODUTO(int cOD_PRODUTO) {
-		
+
 		COD_PRODUTO = cOD_PRODUTO;
 	}
+
 	public String getNOME_PRODUTO() {
 		return NOME_PRODUTO;
 	}
+
 	public void setNOME_PRODUTO(String nOME_PRODUTO) {
-		if(nOME_PRODUTO.equals("")) {
-			System.out.println("Nome não pode ser vazio");
-			throw new IllegalArgumentException("Nome vazio");
-		}
+
 		NOME_PRODUTO = nOME_PRODUTO;
 	}
+
 	public float getPRECO_PRODUTO() {
 		return PRECO_PRODUTO;
 	}
+
 	public void setPRECO_PRODUTO(float pRECO_PRODUTO) {
-		if(pRECO_PRODUTO <= 0) {
-			System.out.println("preço deve ser maior que 0");
-			throw new IllegalArgumentException("preço deve ser maior que 0");
-		}
-		
+
 		PRECO_PRODUTO = pRECO_PRODUTO;
 	}
+
 	@Override
 	public String toString() {
-		return "Código: " + COD_PRODUTO + "\n" + "Nome do produto: " + NOME_PRODUTO + "\n " + "Preço do produto: "
-				+ PRECO_PRODUTO;
+		return "Código: " + COD_PRODUTO + "\n" + "Nome Produto: " + NOME_PRODUTO + "\n" + "Preço: R$ " + PRECO_PRODUTO;
 	}
-	
-	
-	
-	
+
 }
