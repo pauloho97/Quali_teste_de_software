@@ -1,0 +1,62 @@
+package aula;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class validaCarroTest {
+	ValidaCarro validaCarro = new ValidaCarro();
+	
+	@Test
+	void validaIdCarro() {
+		// arrange
+		int id = 1;
+
+		// act
+		Boolean resultado = validaCarro.validaIdCarro(id);
+
+		// assert
+		Assertions.assertTrue(resultado);
+	}
+
+	@Test
+	void idMenorque0() {
+		// arrange
+		ValidaCarro validaCarro = new ValidaCarro();
+		int id = -1;
+		
+		//act
+		Boolean resultado = validaCarro.validaIdCarro(id);
+		
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	}
+	
+	@Test
+	void modeloCarro20Caracteres() {
+		//arrange
+		String modelo = "modeloooooooooooooooooo";
+		
+		//act
+		Boolean resultado = validaCarro.validaModelCarro(modelo);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+		
+	}
+	
+	@Test
+	void modeloCarroMenos20Caracteres() {
+		//arrange
+		String modelo = "modelo";
+		
+		//act
+		Boolean resultado = validaCarro.validaModelCarro(modelo);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	
+	}
+	
+	
+}
