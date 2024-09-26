@@ -1,0 +1,92 @@
+package aula;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class BancoDadosProdutoTest {
+
+    private static BancoDadosProduto banco;
+
+    @BeforeAll
+    public static void init() {
+        banco = new BancoDadosProduto();
+    }
+
+    @BeforeEach
+    public void antesDeletarTudo() {
+        banco.deletarTudo();
+    }
+
+    @Test
+    public void testInsertProduto() {
+        // arrange
+        Produto produto = new Produto(1, "Produto Teste", 10.0f);
+
+        // ack
+        boolean isInserted = banco.insertProduto(produto);
+
+        // assert
+        Produto produtoSalvo = banco.buscaProduto(1);
+        assertNotNull(produtoSalvo);
+        assertEquals("Produto Teste", produtoSalvo.getNOME_PRODUTO());
+        assertEquals(10.0f, produtoSalvo.getPRECO_PRODUTO(), 0.01);
+        assertEquals(1, produtoSalvo.getCOD_PRODUTO());
+    }
+
+    @Test
+    public void testDeleteProduto() {
+        // arrange
+        Produto produto = new Produto(1, "Produto Teste", 10.0f);
+        banco.insertProduto(produto); // Insere o produto
+
+        // ack
+        banco.deleteProduto(1);
+
+        // assert
+        Produto produtoSalvo = banco.buscaProduto(1);
+        assertNull(produtoSalvo);
+    }
+
+    @Test
+    public void testUpdateProduto() {
+        // arrange
+        Produto produto = new Produto(1, "Produto Teste", 10.0f);
+        banco.insertProduto(produto); // Insere o produto
+
+        // captando o mesmo objeto pelo cod_produto
+        Produto produtoAlterado = new Produto(1, "Produto Atualizado", 15.0f);
+
+        // ack
+        banco.updateProduto(produtoAlterado);
+
+        // assert
+        Produto produtoSalvo = banco.buscaProduto(1);
+        assertNotNull(produtoSalvo);
+        assertEquals("Produto Atualizado", produtoSalvo.getNOME_PRODUTO());
+        assertEquals(15.0f, produtoSalvo.getPRECO_PRODUTO(), 0.01);
+    }
+
+    @Test
+    public void testListProdutos() {
+        // arrange
+        int totalProdutos = 10;
+        for (int i = 0; i < totalProdutos; i++) {
+            Produto produto = new Produto(i + 1, "Produto " + (i + 1), 10.0f + i);
+            banco.insertProduto(produto); // Insere produtos
+        }
+
+        // ack
+        List<Produto> lista = banco.listProdutos();
+
+        // assert
+        assertNotNull(lista);
+        assertEquals(totalProdutos, lista.size());
+    }
+}
