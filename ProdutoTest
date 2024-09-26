@@ -1,0 +1,172 @@
+package aula;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+public class ProdutoTest {
+
+	@Test
+	void RegrasSplitSucesso() {
+		// arrange
+		String entrada = "123;pp;17";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertTrue(resultado);
+
+	}
+
+	@Test
+	void RegrasSplitNulo() {
+		// arrange
+		String entrada = "";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void RegrasSplitLength2() {
+		// arrange
+		String entrada = ";nome;17.50";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void RegrasSplitLength1() {
+		// arrange
+		String entrada = "1;;";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void RegrasSplitNomeVazio() {
+		// arrange
+		String entrada = "1;;1";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void RegrasSplitPrecoNegativo() {
+		// arrange
+		String entrada = "1;nome;-1";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void RegrasSplitPrecoPositivo() {
+		// arrange
+		String entrada = "1;nome;1";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertTrue(resultado);
+	}
+
+	@Test
+	void RegrasSplitPrecoZero() {
+		// arrange
+		String entrada = "1;nome;0";
+
+		// act
+		Boolean resultado = Produto.RegrasSplit(entrada);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void testarNumberFormatException() {
+		String entrada = "abc;produto;preco";
+
+		// A entrada "abc" no lugar do código e "preco" no lugar do valor numérico
+		// causará uma NumberFormatException
+		boolean resultado = Produto.RegrasSplit(entrada);
+
+		Assertions.assertFalse(resultado, "A função retorna false ao receber uma entrada mal formatada.");
+	}
+
+	@Test
+	void ListaComCodigoRepetido() {
+		// arrange
+		ArrayList<Produto> lista = new ArrayList<>();
+		Produto entrada = new Produto(1, "banana", 17.40f);
+		lista.add(entrada);
+		String entradaDuplicada = "1;uva;17";
+
+		/*
+		 * CONCEITO NOVO: AQUI A FUNÇÃO MOKITO APENAS SIMULA UM BANCO DE DADOS
+		 * BancoDadosProduto banco = Mockito.mock(BancoDadosProduto.class);
+		 */
+
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.conectarListaeBD(entradaDuplicada, lista, banco);
+
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void ListaSucesso() {
+		// Arrange
+		BancoDadosProduto banco = new BancoDadosProduto();// criação banco
+		ArrayList<Produto> lista = new ArrayList<>();// criação lista
+		String entrada = "1;banana;17.40"; // Código que será inserido
+
+		// Act
+		boolean resultado = Produto.conectarListaeBD(entrada, lista, banco);
+
+		// Assert
+		Assertions.assertTrue(resultado);
+	}
+
+	@Test
+	void TestarExcessao() {
+		// Arrange
+		BancoDadosProduto banco = new BancoDadosProduto();
+		ArrayList<Produto> lista = new ArrayList<>();
+		String entrada = "1;banana;";
+		
+		
+		//act
+		boolean resultado = Produto.conectarListaeBD(entrada, lista, banco);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	}
+}
