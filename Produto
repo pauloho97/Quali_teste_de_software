@@ -86,22 +86,20 @@ public class Produto {
 	            }
 	        }
 			
+	        //Cria objeto produto
 			Produto produto = new Produto(cod, nome, preco);
 			list.add(produto);
 			
 			
 			// Insere no banco de dados
-			if (banco.insertProduto(produto)) {
-				return true; // Retorna o produto se a inserção for bem-sucedida
-			} else {
-				System.out.println("Falha ao inserir produto no banco de dados.");
-				return false;
-			}
+			banco.insertProduto(produto);
 			
 		} catch (Exception e) {
 			System.out.println("erro na inserção do produto");
 			return false;
 		}
+		
+		return true;
 
 	}
 
