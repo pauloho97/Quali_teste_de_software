@@ -1,0 +1,210 @@
+// esse teste é da classe ValidaCarro
+
+package aula;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class validaCarroTest {
+	ValidaCarro validaCarro = new ValidaCarro();
+
+	@Test
+	void IdCarro() {
+		// arrange
+		int id = 1;
+
+		// act
+		Boolean resultado = validaCarro.validaIdCarro(id);
+
+		// assert
+		Assertions.assertTrue(resultado);
+	}
+
+	@Test
+	void idMenorque0() {
+		// arrange
+		ValidaCarro validaCarro = new ValidaCarro();
+		int id = -1;
+
+		// act
+		Boolean resultado = validaCarro.validaIdCarro(id);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void modeloCarro20Caracteres() {
+		// arrange
+		String modelo = "modelo";
+
+		// act
+		Boolean resultado = validaCarro.validaModelCarro(modelo);
+
+		// assert
+		Assertions.assertTrue(resultado);
+
+	}
+
+	@Test
+	void modeloCarroMenos20Caracteres() {
+		// arrange
+		String modelo = "modelooooooooooooooooooooooooooo";
+
+		// act
+		Boolean resultado = validaCarro.validaModelCarro(modelo);
+
+		// assert
+		Assertions.assertFalse(resultado);
+
+	}
+	
+	@Test
+	void MarcaCarroVM() {
+		//arrange
+		String marca = "VW";
+		
+		//act
+		Boolean resultado = validaCarro.validaMarcaCarro(marca);
+		
+		//assert
+		Assertions.assertTrue(resultado);
+	}
+	
+	
+	@Test
+	void MarcaCarroGM() {
+		//arrange
+		String marca = "GM";
+		
+		//act
+		Boolean resultado = validaCarro.validaMarcaCarro(marca);
+		
+		//assert
+		Assertions.assertTrue(resultado);
+	}
+	
+	@Test
+	void MarcaCarroOutraMarca() {
+		//arrange
+		String marca = "FIAT";
+		
+		//act
+		Boolean resultado = validaCarro.validaMarcaCarro(marca);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	}
+	
+
+	@Test
+	void PlacaCarro8Caracteres() {
+		// arrange
+		String placa = "abc13648";
+
+		// act
+		Boolean resultado = validaCarro.validaPlacaCarro(placa);
+
+		// assert
+		Assertions.assertTrue(resultado);
+	}
+
+	@Test
+	void PlacaCarroAbaixode8Caracteres() {
+		// arrange
+		String placa = "abc1364";
+
+		// act
+		Boolean resultado = validaCarro.validaPlacaCarro(placa);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+	
+	@Test
+	void PlacaCarroAcimade8Caracteres() {
+		//arrange
+		String placa = "abc123798645";
+		
+		//act
+		Boolean resultado = validaCarro.validaPlacaCarro(placa);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+		
+	}
+	
+	@Test
+	void anoFabricacaoAcimade1980() {
+		//arrange
+		int ano = 1981;
+		
+		//act
+		Boolean resultado = validaCarro.validaAnoFabricacao(ano);
+	
+		//assert
+		Assertions.assertTrue(resultado);
+		
+	}
+	 
+	@Test
+	void anoFabricacao1980() {
+		//arrange
+		int ano = 1980;
+		
+		//act
+		Boolean resultado = validaCarro.validaAnoFabricacao(ano);
+	
+		//assert
+		Assertions.assertFalse(resultado);
+		
+	}
+	
+	@Test
+	void PrecoFabricacaoMaiorque1() {
+		//arrange valor próximo do limite é 2
+		float preco = 2;
+		
+		//act
+		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+		
+		//assert
+		Assertions.assertTrue(resultado);
+	}
+	
+	@Test
+	void PrecoFabricacaoLimite49999() {
+		//arrange valor próximo do limite é 49999
+		float preco = 49999;
+		
+		//act
+		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+		
+		//assert
+		Assertions.assertTrue(resultado);
+	}
+	
+	@Test
+	void PrecoFabricacao50000() {
+		//arrange valor próximo do limite é 49999
+		float preco = 50000;
+		
+		//act
+		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	}
+	
+	@Test
+	void PrecoFabricacao1() {
+		//arrange valor próximo do limite é 49999
+		float preco = 1;
+		
+		//act
+		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	}
+}
