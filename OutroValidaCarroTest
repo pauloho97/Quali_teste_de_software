@@ -6,205 +6,214 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class validaCarroTest {
-	ValidaCarro validaCarro = new ValidaCarro();
+    ValidaCarro validaCarro = new ValidaCarro();
 
-	@Test
-	void IdCarro() {
-		// arrange
-		int id = 1;
+    @Test
+    void IdCarro() {
+        // arrange
+        int id = 1;
+        Boolean resultadoEsperado = true;
 
-		// act
-		Boolean resultado = validaCarro.validaIdCarro(id);
+        // act
+        Boolean resultado = validaCarro.validaIdCarro(id);
 
-		// assert
-		Assertions.assertTrue(resultado);
-	}
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 
-	@Test
-	void idMenorque0() {
-		// arrange
-		ValidaCarro validaCarro = new ValidaCarro();
-		int id = -1;
+    @Test
+    void idMenorque0() {
+        // arrange
+        int id = -1;
+        Boolean resultadoEsperado = false;
 
-		// act
-		Boolean resultado = validaCarro.validaIdCarro(id);
+        // act
+        Boolean resultado = validaCarro.validaIdCarro(id);
 
-		// assert
-		Assertions.assertFalse(resultado);
-	}
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 
-	@Test
-	void modeloCarro20Caracteres() {
-		// arrange
-		String modelo = "modelo";
+    @Test
+    void modeloCarro20Caracteres() {
+        // arrange
+        String modelo = "modelo";
+        Boolean resultadoEsperado = true;
 
-		// act
-		Boolean resultado = validaCarro.validaModelCarro(modelo);
+        // act
+        Boolean resultado = validaCarro.validaModelCarro(modelo);
 
-		// assert
-		Assertions.assertTrue(resultado);
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 
-	}
+    @Test
+    void modeloCarroMenos20Caracteres() {
+        // arrange
+        String modelo = "modelooooooooooooooooooooooooooo";
+        Boolean resultadoEsperado = false;
 
-	@Test
-	void modeloCarroMenos20Caracteres() {
-		// arrange
-		String modelo = "modelooooooooooooooooooooooooooo";
+        // act
+        Boolean resultado = validaCarro.validaModelCarro(modelo);
 
-		// act
-		Boolean resultado = validaCarro.validaModelCarro(modelo);
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 
-		// assert
-		Assertions.assertFalse(resultado);
+    @Test
+    void MarcaCarroVM() {
+        // arrange
+        String marca = "VW";
+        Boolean resultadoEsperado = true;
 
-	}
-	
-	@Test
-	void MarcaCarroVM() {
-		//arrange
-		String marca = "VW";
-		
-		//act
-		Boolean resultado = validaCarro.validaMarcaCarro(marca);
-		
-		//assert
-		Assertions.assertTrue(resultado);
-	}
-	
-	
-	@Test
-	void MarcaCarroGM() {
-		//arrange
-		String marca = "GM";
-		
-		//act
-		Boolean resultado = validaCarro.validaMarcaCarro(marca);
-		
-		//assert
-		Assertions.assertTrue(resultado);
-	}
-	
-	@Test
-	void MarcaCarroOutraMarca() {
-		//arrange
-		String marca = "FIAT";
-		
-		//act
-		Boolean resultado = validaCarro.validaMarcaCarro(marca);
-		
-		//assert
-		Assertions.assertFalse(resultado);
-	}
-	
+        // act
+        Boolean resultado = validaCarro.validaMarcaCarro(marca);
 
-	@Test
-	void PlacaCarro8Caracteres() {
-		// arrange
-		String placa = "abc13648";
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 
-		// act
-		Boolean resultado = validaCarro.validaPlacaCarro(placa);
+    @Test
+    void MarcaCarroGM() {
+        // arrange
+        String marca = "GM";
+        Boolean resultadoEsperado = true;
 
-		// assert
-		Assertions.assertTrue(resultado);
-	}
+        // act
+        Boolean resultado = validaCarro.validaMarcaCarro(marca);
 
-	@Test
-	void PlacaCarroAbaixode8Caracteres() {
-		// arrange
-		String placa = "abc1364";
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 
-		// act
-		Boolean resultado = validaCarro.validaPlacaCarro(placa);
+    @Test
+    void MarcaCarroOutraMarca() {
+        // arrange
+        String marca = "FIAT";
+        Boolean resultadoEsperado = false;
 
-		// assert
-		Assertions.assertFalse(resultado);
-	}
-	
-	@Test
-	void PlacaCarroAcimade8Caracteres() {
-		//arrange
-		String placa = "abc123798645";
-		
-		//act
-		Boolean resultado = validaCarro.validaPlacaCarro(placa);
-		
-		//assert
-		Assertions.assertFalse(resultado);
-		
-	}
-	
-	@Test
-	void anoFabricacaoAcimade1980() {
-		//arrange
-		int ano = 1981;
-		
-		//act
-		Boolean resultado = validaCarro.validaAnoFabricacao(ano);
-	
-		//assert
-		Assertions.assertTrue(resultado);
-		
-	}
-	 
-	@Test
-	void anoFabricacao1980() {
-		//arrange
-		int ano = 1980;
-		
-		//act
-		Boolean resultado = validaCarro.validaAnoFabricacao(ano);
-	
-		//assert
-		Assertions.assertFalse(resultado);
-		
-	}
-	
-	@Test
-	void PrecoFabricacaoMaiorque1() {
-		//arrange valor próximo do limite é 2
-		float preco = 2;
-		
-		//act
-		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
-		
-		//assert
-		Assertions.assertTrue(resultado);
-	}
-	
-	@Test
-	void PrecoFabricacaoLimite49999() {
-		//arrange valor próximo do limite é 49999
-		float preco = 49999;
-		
-		//act
-		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
-		
-		//assert
-		Assertions.assertTrue(resultado);
-	}
-	
-	@Test
-	void PrecoFabricacao50000() {
-		//arrange valor próximo do limite é 49999
-		float preco = 50000;
-		
-		//act
-		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
-		
-		//assert
-		Assertions.assertFalse(resultado);
-	}
-	
-	@Test
-	void PrecoFabricacao1() {
-		//arrange valor próximo do limite é 49999
-		float preco = 1;
-		
-		//act
-		Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
-		
-		//assert
-		Assertions.assertFalse(resultado);
-	}
+        // act
+        Boolean resultado = validaCarro.validaMarcaCarro(marca);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PlacaCarro8Caracteres() {
+        // arrange
+        String placa = "abc13648";
+        Boolean resultadoEsperado = true;
+
+        // act
+        Boolean resultado = validaCarro.validaPlacaCarro(placa);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PlacaCarroAbaixode8Caracteres() {
+        // arrange
+        String placa = "abc1364";
+        Boolean resultadoEsperado = false;
+
+        // act
+        Boolean resultado = validaCarro.validaPlacaCarro(placa);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PlacaCarroAcimade8Caracteres() {
+        // arrange
+        String placa = "abc123798645";
+        Boolean resultadoEsperado = false;
+
+        // act
+        Boolean resultado = validaCarro.validaPlacaCarro(placa);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void anoFabricacaoAcimade1980() {
+        // arrange
+        int ano = 1981;
+        Boolean resultadoEsperado = true;
+
+        // act
+        Boolean resultado = validaCarro.validaAnoFabricacao(ano);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void anoFabricacao1980() {
+        // arrange
+        int ano = 1980;
+        Boolean resultadoEsperado = false;
+
+        // act
+        Boolean resultado = validaCarro.validaAnoFabricacao(ano);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PrecoFabricacaoMaiorque1() {
+        // arrange
+        float preco = 2;
+        Boolean resultadoEsperado = true;
+
+        // act
+        Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PrecoFabricacaoLimite49999() {
+        // arrange
+        float preco = 49999;
+        Boolean resultadoEsperado = true;
+
+        // act
+        Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PrecoFabricacao50000() {
+        // arrange
+        float preco = 50000;
+        Boolean resultadoEsperado = false;
+
+        // act
+        Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
+
+    @Test
+    void PrecoFabricacao1() {
+        // arrange
+        float preco = 1;
+        Boolean resultadoEsperado = false;
+
+        // act
+        Boolean resultado = validaCarro.validaPrecoFabricacao(preco);
+
+        // assert
+        Assertions.assertEquals(resultadoEsperado, resultado);
+    }
 }
+
