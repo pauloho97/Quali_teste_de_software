@@ -1,0 +1,62 @@
+package aula;
+
+public class DataMatrix {
+
+	
+	private String COD_MED;
+	private int DT_PRODUCAO;
+	private String SERIAL;
+	private int LOTE;
+	
+	
+
+	public String getCOD_MED() {
+		return COD_MED;
+	}
+	public void setCOD_MED(String cOD_MED) {
+		COD_MED = cOD_MED;
+		
+		if(cOD_MED.length() > 14 ) {
+			throw new IllegalArgumentException("STRING INVALIDA");	
+		}
+	}
+	public DataMatrix(String cOD_MED, int dT_PRODUCAO, String sERIAL, int lOTE) {
+		super();
+		COD_MED = cOD_MED;
+		DT_PRODUCAO = dT_PRODUCAO;
+		SERIAL = sERIAL;
+		LOTE = lOTE;
+	}
+	public int getDT_PRODUCAO() {
+		return DT_PRODUCAO;
+	}
+	public void setDT_PRODUCAO(int dT_PRODUCAO) {
+		DT_PRODUCAO = dT_PRODUCAO;
+		int valormaximo = 1234567;
+		if(dT_PRODUCAO >= valormaximo ) {
+			throw new IllegalArgumentException("DATA PRODUÇÃO INVALIDA");	
+		}
+		
+	}
+	public String getSERIAL() {
+		return SERIAL;
+	}
+	public void setSERIAL(String sERIAL) {
+		SERIAL = sERIAL;
+		if(sERIAL.length() > 5 ) {
+			throw new IllegalArgumentException("STRING INVALIDA");	
+		}
+	}
+	public int getLOTE() {
+		return LOTE;
+	}
+	public void setLOTE(int lOTE) {
+		LOTE = lOTE;
+		int valormaximo = 1234567;
+		if(lOTE >= valormaximo ) {
+			throw new IllegalArgumentException("LOTE INVALIDO");
+		}
+	}
+	
+}
+
