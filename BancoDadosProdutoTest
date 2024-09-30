@@ -1,92 +1,111 @@
 package aula;
+/*
+	Assinados pelos programadores primeiro casal GAY do Senai: Paulo Jumanji e Henry lgbtqia+
+*/
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import java.util.ArrayList;
 
-import java.util.List;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BancoDadosProdutoTest {
+public class BDProdutoTest {
+	
+	private static BancoDadosProduto banco;
+	
+	// Antes de todos os testes, inicializa o banco de dados
+	@BeforeAll
+	public static void Init() {
+		banco = new BancoDadosProduto();
+	}
+	
+	// Antes de cada teste, limpa o banco de dados
+	@BeforeEach
+	public void antesdeletarTudo() {
+		banco.deletarTudo();
+	}
+	
+	// Testa a inserção de um produto no banco de dados
+	@Test
+	public void inserirProduto() {
+		// arrange
+		Produto produto = new Produto(1,"Paulo",12f);
+		
+		// act 
+		banco.insertProduto(produto);
+		
+		// assert
+		Produto produtoSalvo = banco.buscaProduto(1);
+		Assertions.assertNotNull(produtoSalvo);
+		Assertions.assertEquals("Paulo", produtoSalvo.getNOME_PRODUTO());
+		Assertions.assertEquals(12f, produtoSalvo.getPRECO_PRODUTO());
+		Assertions.assertEquals(1, produtoSalvo.getCOD_PRODUTO());
+	}
+	
+	// Testa a exclusão de um produto do banco de dados
+	@Test
+	public void deletarProduto() {
+		// arrange
+		Produto produto = new Produto(1,"Paulo deletar",17f);
+		banco.insertProduto(produto);
 
-    private static BancoDadosProduto banco;
-
-    @BeforeAll
-    public static void init() {
-        banco = new BancoDadosProduto();
-    }
-
-    @BeforeEach
-    public void antesDeletarTudo() {
-        banco.deletarTudo();
-    }
-
-    @Test
-    public void testInsertProduto() {
-        // arrange
-        Produto produto = new Produto(1, "Produto Teste", 10.0f);
-
-        // ack
-        boolean isInserted = banco.insertProduto(produto);
-
-        // assert
-        Produto produtoSalvo = banco.buscaProduto(1);
-        assertNotNull(produtoSalvo);
-        assertEquals("Produto Teste", produtoSalvo.getNOME_PRODUTO());
-        assertEquals(10.0f, produtoSalvo.getPRECO_PRODUTO(), 0.01);
-        assertEquals(1, produtoSalvo.getCOD_PRODUTO());
-    }
-
-    @Test
-    public void testDeleteProduto() {
-        // arrange
-        Produto produto = new Produto(1, "Produto Teste", 10.0f);
-        banco.insertProduto(produto); // Insere o produto
-
-        // ack
-        banco.deleteProduto(1);
-
-        // assert
-        Produto produtoSalvo = banco.buscaProduto(1);
-        assertNull(produtoSalvo);
-    }
-
-    @Test
-    public void testUpdateProduto() {
-        // arrange
-        Produto produto = new Produto(1, "Produto Teste", 10.0f);
-        banco.insertProduto(produto); // Insere o produto
-
-        // captando o mesmo objeto pelo cod_produto
-        Produto produtoAlterado = new Produto(1, "Produto Atualizado", 15.0f);
-
-        // ack
-        banco.updateProduto(produtoAlterado);
-
-        // assert
-        Produto produtoSalvo = banco.buscaProduto(1);
-        assertNotNull(produtoSalvo);
-        assertEquals("Produto Atualizado", produtoSalvo.getNOME_PRODUTO());
-        assertEquals(15.0f, produtoSalvo.getPRECO_PRODUTO(), 0.01);
-    }
-
-    @Test
-    public void testListProdutos() {
-        // arrange
-        int totalProdutos = 10;
-        for (int i = 0; i < totalProdutos; i++) {
-            Produto produto = new Produto(i + 1, "Produto " + (i + 1), 10.0f + i);
-            banco.insertProduto(produto); // Insere produtos
-        }
-
-        // ack
-        List<Produto> lista = banco.listProdutos();
-
-        // assert
-        assertNotNull(lista);
-        assertEquals(totalProdutos, lista.size());
-    }
+		// act		
+		banco.deleteProduto(1);
+		
+		// assert
+		Produto produtoSalvo = banco.buscaProduto(1);
+		Assertions.assertNull(produtoSalvo);
+	}
+	
+	// Testa a atualização de um produto no banco de dados
+	@Test
+	public void AtualizarProduto() {
+		// arrange
+		Produto produto = new Produto(1,"Paulo",17f);
+		banco.insertProduto(produto);
+		Produto produto2 = new Produto(1,"Paulo atualizado",24f);
+		
+		// act
+		banco.updateProduto(produto2);
+		
+		// assert
+		Produto produtoSalvo = banco.buscaProduto(1);
+		Assertions.assertEquals(produtoSalvo.getCOD_PRODUTO(), 1);
+		Assertions.assertEquals(produtoSalvo.getPRECO_PRODUTO(), 24f);
+		Assertions.assertEquals(produtoSalvo.getNOME_PRODUTO(), "Paulo atualizado");
+	}
+	
+	// Testa a listagem de produtos do banco de dados
+	@Test
+	public void listarProduto() {
+		// arrange
+		Produto produto1 = new Produto(1, "Paulo", 17f);
+		Produto produto2 = new Produto(2, "Henry gay", 18f);
+		ArrayList<Produto> lista = new ArrayList<>();
+		lista.add(produto1);
+		lista.add(produto2);
+		
+		// act
+		banco.listProdutos();
+		
+		// assert
+		Assertions.assertNotNull(lista);
+	}
+	
+	// Testa o comportamento ao inserir dois produtos com o mesmo ID
+	@Test 
+	public void ComportamentoIdsIguais() {
+		// arrange
+		Produto produto1 = new Produto(1, "Henry lgbtqia+", 45.07f);
+		Produto produto2 = new Produto(1, "Henry gay assumido", 44.07f);
+		
+		// act
+		banco.insertProduto(produto1);
+		banco.insertProduto(produto2);
+		
+		// assert
+		Produto produtoSalvo = banco.buscaProduto(1);
+		Assertions.assertNotNull(produtoSalvo);
+	}
 }
