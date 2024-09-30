@@ -1,0 +1,67 @@
+package aula;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
+public class DataMatrixTest {
+	@Test
+	public void COD_MEDMaisde14caracteres() {
+		// Arrange
+		String COD_MED = "123456789012345";
+		int DT_PRODUCAO = 12345;
+		String SERIAL = "12345";
+		int LOTE = 12345;
+
+		// Act e Assert
+		DataMatrix dataMatrix = new DataMatrix(COD_MED,DT_PRODUCAO,SERIAL,LOTE);
+		assertThrows(IllegalArgumentException.class, () -> {
+			dataMatrix.setCOD_MED(COD_MED);
+		});
+	}
+
+	@Test
+    public void DT_PRODUCAOMaiorQueMaximo() {
+        // Arrange
+		String COD_MED = "12345678901234";
+		int DT_PRODUCAO = 1234568;
+		String SERIAL = "12345";
+		int LOTE = 12345;
+       
+        DataMatrix dataMatrix = new DataMatrix(COD_MED, DT_PRODUCAO, SERIAL, DT_PRODUCAO);
+
+        // Act e Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            dataMatrix.setDT_PRODUCAO(DT_PRODUCAO);
+        });
+    }
+	@Test
+	public void SERIALMaisde5caracteres() {
+		// Arrange
+		String COD_MED = "12345678901234";
+		int DT_PRODUCAO = 12345;
+		String SERIAL = "123456";
+		int LOTE = 12345;
+
+		// Act e Assert
+		DataMatrix dataMatrix = new DataMatrix(COD_MED,DT_PRODUCAO,SERIAL,LOTE);
+		assertThrows(IllegalArgumentException.class, () -> {
+			dataMatrix.setSERIAL(SERIAL);
+		});
+	}
+
+	 @Test
+	    public void LOTEMaiorQueMaximo() {
+	        // Arrange
+		 	String COD_MED = "12345678901234";
+			int DT_PRODUCAO = 12345;
+			String SERIAL = "12345";
+	        int LOTE = 1234568;
+	        DataMatrix dataMatrix = new DataMatrix(COD_MED,DT_PRODUCAO,SERIAL,LOTE);
+
+	        // Act e Assert
+	        assertThrows(IllegalArgumentException.class, () -> {
+	            dataMatrix.setLOTE(LOTE);
+	        });
+	    }
+}
