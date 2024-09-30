@@ -11,7 +11,126 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ProdutoTest {
+	
+	// Testes para a função estática processarCadastro
+	
+	@Test
+	void processarCadastroSucesso() {
+		// arrange
+		String entrada = "1;banana;17.40";
+		ArrayList<Produto> lista = new ArrayList<>();
+		BancoDadosProduto banco = new BancoDadosProduto();
 
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertTrue(resultado);
+	}
+
+	@Test
+	void processarCadastroRegrasSplitFalha() {
+		// arrange
+		String entrada = ""; // entrada inválida
+		ArrayList<Produto> lista = new ArrayList<>();
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void processarCadastroConectarFalha() {
+		// arrange
+		String entrada = "1;uva;17"; // entrada válida, mas repetida
+		ArrayList<Produto> lista = new ArrayList<>();
+		Produto produtoExistente = new Produto(1, "banana", 17.40f);
+		lista.add(produtoExistente);
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado);
+	}
+
+	@Test
+	void processarCadastroEntradaMalFormatada() {
+		// arrange
+		String entrada = "abc;produto;preco"; // entrada mal formatada
+		ArrayList<Produto> lista = new ArrayList<>();
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado, "A função retorna false ao receber uma entrada mal formatada.");
+	}
+
+	@Test
+	void processarCadastroComCodigoRepetido() {
+		// arrange
+		String entrada = "1;banana;17.40"; // entrada válida
+		ArrayList<Produto> lista = new ArrayList<>();
+		Produto produtoExistente = new Produto(1, "banana", 17.40f);
+		lista.add(produtoExistente);
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado); // Deve falhar devido ao código duplicado
+	}
+
+	@Test
+	void processarCadastroNomeVazio() {
+		// arrange
+		String entrada = "1;;17.40"; // nome vazio
+		ArrayList<Produto> lista = new ArrayList<>();
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado); // Deve falhar devido ao nome vazio
+	}
+
+	@Test
+	void processarCadastroPrecoNegativo() {
+		// arrange
+		String entrada = "1;banana;-1"; // preço negativo
+		ArrayList<Produto> lista = new ArrayList<>();
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado); // Deve falhar devido ao preço negativo
+	}
+
+	@Test
+	void processarCadastroPrecoZero() {
+		// arrange
+		String entrada = "1;banana;0"; // preço zero
+		ArrayList<Produto> lista = new ArrayList<>();
+		BancoDadosProduto banco = new BancoDadosProduto();
+
+		// act
+		boolean resultado = Produto.processarCadastro(entrada, lista, banco);
+
+		// assert
+		Assertions.assertFalse(resultado); // Deve falhar devido ao preço zero
+	}
+	
+	// Testes para a função regrasSplit
 	@Test
 	void RegrasSplitSucesso() {
 		// arrange
@@ -108,7 +227,8 @@ public class ProdutoTest {
 		// assert
 		Assertions.assertFalse(resultado);
 	}
-
+	
+	//Testa a excessão
 	@Test
 	void testarNumberFormatException() {
 		String entrada = "abc;produto;preco";
@@ -120,6 +240,7 @@ public class ProdutoTest {
 		Assertions.assertFalse(resultado, "A função retorna false ao receber uma entrada mal formatada.");
 	}
 
+	//Testes para a função conectarListaeBD
 	@Test
 	void ListaComCodigoRepetido() {
 		// arrange
@@ -137,7 +258,8 @@ public class ProdutoTest {
 
 		// act
 		boolean resultado = Produto.conectarListaeBD(entradaDuplicada, lista, banco);
-
+		
+		//assert
 		Assertions.assertFalse(resultado);
 	}
 
@@ -161,12 +283,11 @@ public class ProdutoTest {
 		BancoDadosProduto banco = new BancoDadosProduto();
 		ArrayList<Produto> lista = new ArrayList<>();
 		String entrada = "1;banana;";
-		
-		
-		//act
+
+		// act
 		boolean resultado = Produto.conectarListaeBD(entrada, lista, banco);
-		
-		//assert
+
+		// assert
 		Assertions.assertFalse(resultado);
 	}
 }
