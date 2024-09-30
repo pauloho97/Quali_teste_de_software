@@ -54,8 +54,7 @@ public class Produto {
 			}
 
 		} catch (NumberFormatException e) {
-			System.out.println(
-					"Erro de formato. Certifique-se de que o código é numérico e o preço é um número decimal.");
+			System.out.println("Erro de formato. Certifique-se de que o código é numérico e o preço é um número decimal.");
 			return false;
 		}
 		return true;
