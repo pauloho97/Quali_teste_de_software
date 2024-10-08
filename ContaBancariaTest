@@ -1,0 +1,70 @@
+package aula;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+public class ContaBancariaTest {
+	
+	ContaBancaria contaMock = Mockito.mock(ContaBancaria.class);
+	
+	//nome deve retornar 'João da Silva'
+	@Test
+	public void TestnomeCorrentista() {
+		//arrange 
+		
+		when(contaMock.getNomeCorrentista()).thenReturn("João da Silva");
+		
+		//act
+		String resultado = contaMock.getNomeCorrentista();
+		
+		//assertion
+		Assertions.assertEquals(resultado, "João da Silva");
+	}
+	
+	
+	//ao passar o valor 50, sempre retorne 200.
+	@Test
+	public void TestDepositaDinheiroRetorno200() {
+		//arrange
+		
+		when(contaMock.depositaDinheiro(50f)).thenReturn(200f);
+		
+		//act
+		float resultado = contaMock.depositaDinheiro(50f);
+		
+		//assertions
+		Assertions.assertEquals(resultado, 200f);
+	}
+	
+	//ao passar o valor 10, sempre retorne 30.
+	@Test
+	public void sacarDinheiro() {
+		//arrange
+		when(contaMock.sacarDinheiro(10f)).thenReturn(30f);
+		
+		//act
+		float resultado = contaMock.sacarDinheiro(10f);
+		
+		//assert
+		Assertions.assertEquals(resultado, 30f);
+	}
+	
+	//ao passar qualquer valor, sempre retorne 1000
+	@Test
+	public void depositarDinheiroValorQualquer() {
+		//arrange
+		when(contaMock.depositaDinheiro(any(Float.class))).thenReturn(1000f);
+		
+		//act
+		float resultado = contaMock.depositaDinheiro(400.44f);
+		
+		//assert
+		Assertions.assertEquals(resultado, 1000f);
+	}
+	
+	
+}
