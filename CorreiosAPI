@@ -1,0 +1,9 @@
+package aula;
+
+public class CorreiosAPI{
+
+	public String retornaNomeRua(String cep){
+		return null;
+	}
+}
+
