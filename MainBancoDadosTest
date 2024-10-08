@@ -1,0 +1,101 @@
+package aula;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+
+public class MainBancoDadosTest {
+
+	private BancoDados bancoDadosMock;	 
+    private MainBancoDados mainBancoDados;
+    
+    @BeforeEach
+    public void init(){
+    	bancoDadosMock = Mockito.mock(BancoDados.class);
+    	mainBancoDados = new MainBancoDados(bancoDadosMock);
+    }
+    
+    @BeforeEach
+    public void beforeEach() {
+    	
+    }
+    
+    @Test
+    public void testInserirPessoa(){
+    	// arrange
+    	Pessoa pessoa = new Pessoa();     	
+    	
+    	// configura o mock
+    	when(bancoDadosMock.insertPessoa(pessoa)).thenReturn(15);
+        pessoa.setIdade(60);
+        pessoa.setNome("joao");
+        
+        // act
+        boolean resultado = mainBancoDados.inserirPessoa(pessoa);
+        
+        // assert
+        assertTrue(resultado);
+        
+    }
+    
+    @Test
+    public void testInserirPessoaIdNegativo(){
+    	// arrange
+    	Pessoa pessoa = new Pessoa();     	
+    	
+    	// configura o mock
+    	when(bancoDadosMock.insertPessoa(pessoa)).thenReturn(-1);
+        pessoa.setIdade(60);
+        pessoa.setNome("joao");
+        
+        // act
+        boolean resultado = mainBancoDados.inserirPessoa(pessoa);
+        
+        // assert
+        assertFalse(resultado);
+        
+    }
+    
+    @Test
+    public void TestlistarPessoaListaVazia() {
+    	//arrange
+    
+    	
+    	// configura o mock
+    	when(bancoDadosMock.listPessoa()).thenReturn(new ArrayList<Pessoa>());
+    	
+    	//act
+    	boolean resultado = mainBancoDados.listarPessoas();
+    	
+    	//assert
+    	assertFalse(resultado);
+    	
+    }
+    
+    @Test
+    public void TestlistarPessoaListaComPessoa() {
+    	//arrange
+    	ArrayList<Pessoa> lista = new ArrayList<>();
+    	Pessoa pessoa = new Pessoa();
+    	
+    	lista.add(pessoa);
+    	pessoa.setId(1);
+    	
+    	// configura o mock
+    	when(bancoDadosMock.listPessoa()).thenReturn(lista);
+    	
+    	//act
+    	boolean resultado = mainBancoDados.listarPessoas();
+    	
+    	//assert
+    	assertTrue(resultado);
+    	
+    }
+}
