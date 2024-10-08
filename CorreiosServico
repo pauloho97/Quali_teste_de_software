@@ -1,0 +1,12 @@
+package aula;
+
+public class CorreiosServico {
+	// dependencia da classe
+	CorreiosAPI correioApi = new CorreiosAPI();
+
+	public boolean eCepValido(String cep) {
+		String nomeRua = correioApi.retornaNomeRua(cep);
+		return nomeRua == null ? false : true;
+	}
+
+}
