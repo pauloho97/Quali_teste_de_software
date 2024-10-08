@@ -1,0 +1,45 @@
+package aula;
+
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+public class CorreiosServicoTest {
+	
+	CorreiosAPI correiosAPIMock = Mockito.mock(CorreiosAPI.class);
+	CorreiosServico correiosServico = new CorreiosServico();
+	
+	// ao inserir cep null deve retornar false
+	@Test
+	public void TestCepNull() {
+		//arrange
+		when(correiosAPIMock.retornaNomeRua(null)).thenReturn(null);
+		
+		// Definindo o CorreiosAPI mock na instância de CorreiosServico
+		correiosServico.correioApi = correiosAPIMock;
+		
+		//act
+		boolean resultado = correiosServico.eCepValido(null);
+		
+		//assert
+		Assertions.assertFalse(resultado);
+	}
+	
+	//ao inserir algum cep deve retornar true
+	@Test
+	public void TestCepValido() {
+		//arrange
+		when(correiosAPIMock.retornaNomeRua("123465978")).thenReturn("Rua dos bandoleiros");
+		
+		// Definindo o CorreiosAPI mock na instância de CorreiosServico
+		correiosServico.correioApi = correiosAPIMock;
+		
+		//act
+		boolean resultado = correiosServico.eCepValido("123465978");
+		
+		//assert
+		Assertions.assertTrue(resultado);
+	}
+}
