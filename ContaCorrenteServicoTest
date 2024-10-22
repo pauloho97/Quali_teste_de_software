@@ -1,0 +1,51 @@
+package aula;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+public class ContaCorrenteServicoTest {
+	
+	
+	private ContaBancaria contaMock;
+	private ContaCorrenteServico contaCorrenteMock;
+	
+	
+	@BeforeEach
+	public void init() {
+		contaMock = Mockito.mock(ContaBancaria.class);
+		contaCorrenteMock = new ContaCorrenteServico(contaMock);
+	}
+	
+	@Test
+	public void processarDepositoSucesso() {
+		//arrange
+		String nome = "roberto";
+		Float valor = 50f;
+		when(contaMock.depositaDinheiro(any(Float.class))).thenReturn(100f);
+		
+		//ack
+		String resultado = contaCorrenteMock.processarDeposito(nome,valor);
+		
+		//assert
+		Assertions.assertEquals(resultado, "sucesso");
+	}
+	
+	
+	@Test
+	public void processarDepositoErro() {
+		//arrange
+		
+		when(contaMock.depositaDinheiro(null)).thenReturn(null);
+		
+		//ack
+		String resultado = contaCorrenteMock.processarDeposito("",null);
+		
+		//assert
+		Assertions.assertEquals(resultado, "erro");
+	}
+}
