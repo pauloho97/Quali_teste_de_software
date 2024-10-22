@@ -1,0 +1,19 @@
+package aula;
+
+public class ContaCorrenteServico {
+
+	private ContaBancaria contaCorrente;
+
+	public ContaCorrenteServico(ContaBancaria conta) {
+		contaCorrente = conta;
+	}
+
+	public String processarDeposito(String nome, Float valor) {
+		Float resultado = contaCorrente.depositaDinheiro(valor);
+		if (resultado != null) {
+			return "sucesso";
+		} else {
+			return "erro";
+		}
+	}
+}
