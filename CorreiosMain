@@ -1,0 +1,25 @@
+package aula;
+
+import java.util.Scanner;
+
+public class CorreiosMain {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Scanner scan = new Scanner(System.in);
+		
+		CorreiosAPIServico correiosAPIServico = new CorreiosAPIServico();
+		
+		System.out.println("Informe seu cep: ");
+		String cepInt = scan.next();
+		
+		Endereco end = correiosAPIServico.buscar(cepInt);
+		
+		System.out.println("Logradouro: " + end.getLogradouro());
+		System.out.println("Uf: " + end.getCep());
+		System.out.println("Bairro: " + end.getBairro());
+		
+	}
+
+}
