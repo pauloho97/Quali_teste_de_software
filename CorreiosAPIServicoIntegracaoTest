@@ -1,0 +1,56 @@
+package aula;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class CorreiosAPIServicoIntegracaoTest {
+
+	private CorreiosAPIServico correiosAPIServico;
+
+	@BeforeEach
+	public void inicio() {
+		correiosAPIServico = new CorreiosAPIServico();
+	}
+
+	@Test
+	public void testBuscarok() {
+		// arrange
+
+		// ack
+		Endereco end = correiosAPIServico.buscar("91140080");
+
+		// assert
+		Assertions.assertEquals("Rua da Cultura", end.getLogradouro());
+		Assertions.assertEquals("Sarandi", end.getBairro());
+		Assertions.assertEquals("RS", end.getUf());
+
+	}
+
+	@Test
+	public void testBuscaEndInvalido() {
+
+		// ack
+		Endereco end = correiosAPIServico.buscar("12312asdsad");
+
+		// assert
+		Assertions.assertEquals("LOGRADOURO NÃO ENCONTRADO", end.getLogradouro());
+		Assertions.assertEquals("BAIRRO NAO ENCONTRADO", end.getBairro());
+		Assertions.assertEquals("UF NÃO ENCONTRADO", end.getUf());
+
+	}
+	
+	@Test
+	public void testBuscaEndInvalido8Caracteres() {
+
+		// ack
+		Endereco end = correiosAPIServico.buscar("null");
+
+		// assert
+		Assertions.assertEquals("LOGRADOURO NÃO ENCONTRADO", end.getLogradouro());
+		Assertions.assertEquals("BAIRRO NAO ENCONTRADO", end.getBairro());
+		Assertions.assertEquals("UF NÃO ENCONTRADO", end.getUf());
+
+	}
+
+}
