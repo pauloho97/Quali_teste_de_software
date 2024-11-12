@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ExercicioSeleniumTest {
@@ -35,12 +37,42 @@ public class ExercicioSeleniumTest {
 	    	
 			// arrange
 	    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicioSelenium.html");      
-	    	String tituloExperado ="Este é um exercício de Selenium"; 
+	    	String tituloExperado ="Exercicios"; 
 	        
 	    	// act, assert
 	    	Assertions.assertEquals(tituloExperado,driver.getTitle());
-	    	  Alert alert = driver.switchTo().alert();
-	          Assertions.assertTrue(alert.getText().equals("Validação realizada com sucesso!"));
-	          alert.accept();
+	    	
 	    }
+	 
+	 @Test
+	    public void testTituloConteudo(){
+	    	
+			// arrange
+	    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicioSelenium.html");      
+	    	String tituloExperado ="Este é um exercício de Selenium"; 
+	        
+	    	// act, assert
+	    	Assertions.assertTrue(driver.getPageSource().contains(tituloExperado));
+	    	
+	    	 /* Alert alert = driver.switchTo().alert();
+	          Assertions.assertTrue(alert.getText().equals("Validação realizada com sucesso!"));
+	          alert.accept();*/
+	    }
+	 
+	 
+	 @Test
+	    public void testLabelBotao(){
+		 	// arrange
+	    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicioSelenium.html");    
+
+	         WebElement submit = driver.findElement(By.id("submit"));
+	         submit.click();
+	       
+	         Alert alert = driver.switchTo().alert();
+	         Assertions.assertTrue(alert.getText().equals("Validação realizada com sucesso!"));
+	         alert.accept();
+	         
+	        
+	    }
+	 
 }
