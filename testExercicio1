@@ -1,0 +1,191 @@
+package aula;
+
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class TestExercicio1 {
+	
+	
+	static WebDriver driver = null;
+    
+    private static String paginaExercicio1;
+    
+    @BeforeAll
+    public static void setUp() {
+         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver-win64\\chromedriver.exe");
+	        
+        
+         driver = new ChromeDriver();
+
+        driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    
+        String paginaExercicio1 = driver.getWindowHandle();
+    }
+    
+    @Test
+    public void TestTituloPaginaCalculadora() {
+    	
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	String tituloEsperado = "Calculadora";
+    	
+    	//assert,act
+    	Assertions.assertEquals(tituloEsperado, driver.getTitle());
+    	
+    }
+    
+    @Test
+    public void TestSomaCorreto() {
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	
+    	 WebElement valorA = driver.findElement(By.id("a"));
+         WebElement valorB = driver.findElement(By.id("b"));
+         WebElement botao = driver.findElement(By.id("botao_somar"));
+         WebElement resultado = driver.findElement(By.id("resultado"));
+         valorA.sendKeys("5");
+         valorB.sendKeys("5");
+         
+         String resultadoEsperado = "Resultado da soma: 10";
+         
+         botao.click();
+         
+         //assert
+         Assertions.assertEquals(resultadoEsperado, resultado.getText());
+         
+    }
+    
+    @Test
+    public void TestNultiplicar() {
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	
+    	 WebElement valorA = driver.findElement(By.id("a"));
+         WebElement valorB = driver.findElement(By.id("b"));
+         WebElement botao = driver.findElement(By.id("botao_multiplicar"));
+         WebElement resultado = driver.findElement(By.id("resultado"));
+         valorA.sendKeys("5");
+         valorB.sendKeys("5");
+         
+         //act
+         String resultadoEsperado = "Resultado da mutiplicacao: 25";
+         
+         botao.click();
+         
+         //assert
+         Assertions.assertEquals(resultadoEsperado, resultado.getText());
+    }
+    
+    
+   // @DisplayName("teste de campos não preenchidos");
+    
+    @Test
+    public void TestCampoVazioNaSoma() {
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	
+    	 WebElement valorA = driver.findElement(By.id("a"));
+         WebElement valorB = driver.findElement(By.id("b"));
+         WebElement botao = driver.findElement(By.id("botao_somar"));
+         valorA.sendKeys("5");
+         valorB.sendKeys("");
+         botao.click();
+         Alert alert = driver.switchTo().alert();      
+         
+         //act
+         String resultadoEsperado = "preencha todos os campos";
+         
+         //assert
+         Assertions.assertTrue(alert.getText().equals("preencha todos os campos"));
+         Assertions.assertEquals(resultadoEsperado,alert.getText());
+         alert.accept();
+    }
+    
+    @Test
+    public void TestCampoVazioNaMultiplicacao() {
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	
+    	 WebElement valorA = driver.findElement(By.id("a"));
+         WebElement valorB = driver.findElement(By.id("b"));
+         WebElement botao = driver.findElement(By.id("botao_multiplicar"));
+         valorA.sendKeys("5");
+         valorB.sendKeys("");
+         
+         botao.click();
+         
+         Alert alert = driver.switchTo().alert();     
+         
+         String resultadoEsperado = "preencha todos os campos";
+         
+         //assert
+         Assertions.assertTrue(alert.getText().equals("preencha todos os campos"));
+         Assertions.assertEquals(resultadoEsperado,alert.getText());
+         alert.accept();
+         
+    }
+    
+    @Test
+    public void TestCampoLetrasSoma() {
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	
+    	 WebElement valorA = driver.findElement(By.id("a"));
+         WebElement valorB = driver.findElement(By.id("b"));
+         WebElement botao = driver.findElement(By.id("botao_somar"));
+         valorA.sendKeys("asdasd");
+         valorB.sendKeys("ss");
+         botao.click();
+         Alert alert = driver.switchTo().alert();  
+         
+         //act
+         String resultadoEsperado = "digite somente números";
+         
+         //assert
+         Assertions.assertTrue(alert.getText().equals("digite somente números"));
+         Assertions.assertEquals(resultadoEsperado,alert.getText());
+         alert.accept();
+         
+    }
+    
+    @Test
+    public void TestCampoLetrasMultiplicacao() {
+    	//arrange
+    	driver.get("C:\\Users\\fatec.senai\\Desktop\\qts\\src\\main\\java\\aula\\exercicio1.html");
+    	
+    	 WebElement valorA = driver.findElement(By.id("a"));
+         WebElement valorB = driver.findElement(By.id("b"));
+         WebElement botao = driver.findElement(By.id("botao_multiplicar"));
+         valorA.sendKeys("asdasd");
+         valorB.sendKeys("ss");
+         botao.click();
+         
+         //act
+         String resultadoEsperado = "digite somente números";
+         
+         //assert
+         Alert alert = driver.switchTo().alert();      
+         Assertions.assertTrue(alert.getText().equals("digite somente números"));
+         Assertions.assertEquals(resultadoEsperado,alert.getText());
+         alert.accept();
+         
+    }
+       
+    
+    
+    @AfterAll
+    public static void tearDown() {
+        driver.quit();
+    }
+  
+ 
+}
